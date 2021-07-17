@@ -4,20 +4,22 @@
 #include <string>
 #include <thread>
 
-void start_clients(Server& s)
+void run_server(Server& s)
 {
-    std::string input;
-    std::getline(std::cin, input);
-
-    s.emitStart();
+    s.run();
 }
 
 auto main() -> int
 {
     Server server;
-    std::thread cmdlineRunner{start_clients, std::ref(server)};
+    std::thread srvRunner{run_server, std::ref(server)};
 
-    server.run();
+    std::string input;
+    std::getline(std::cin, input);
+
+    server.emitStart();
+
+    srvRunner.join();
 
     return 0;
 }
