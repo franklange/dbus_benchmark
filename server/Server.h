@@ -1,5 +1,7 @@
 #pragma once
 
+#include <common/DBusConfig.h>
+
 #include <sdbus-c++/sdbus-c++.h>
 
 #include <array>
@@ -7,10 +9,6 @@
 #include <memory>
 #include <string>
 #include <vector>
-
-const std::string bus{"org.dbus.benchmark"};
-const std::string object{"/org/dbus/benchmark"};
-const std::string interface{"org.dbus.benchmark"};
 
 using Connection = std::unique_ptr<sdbus::IConnection>;
 using Object = std::unique_ptr<sdbus::IObject>;

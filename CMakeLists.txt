@@ -8,5 +8,6 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build Type" FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
 
+add_subdirectory(common)
 add_subdirectory(server)
 add_subdirectory(client)

@@ -1,12 +1,16 @@
 #include "Server.h"
 
+#include <common/DBusConfig.h>
+
+#include <iostream>
+
 Server::Server()
-    : m_connection{sdbus::createSessionBusConnection(bus)}
-    , m_object{sdbus::createObject(*m_connection, object)}
+    : m_connection{sdbus::createSessionBusConnection(common::bus)}
+    , m_object{sdbus::createObject(*m_connection, common::object)}
     , m_data(m_numElements)
 {
-    m_object->registerMethod(interface, "fetch", "", "au", [&](auto m){ fetch(std::move(m)); });
-    m_object->registerSignal(interface, "start", "");
+    m_object->registerMethod(common::interface, "fetch", "", "au", [&](auto m){ fetch(std::move(m)); });
+    m_object->registerSignal(common::interface, "start", "s");
     m_object->finishRegistration();
 }
 
@@ -24,5 +28,8 @@ void Server::fetch(sdbus::MethodCall c)
 
 void Server::emitStart()
 {
-    m_object->emitSignal(m_object->createSignal(interface, "start"));
+    auto s = m_object->createSignal(common::interface, "start");
+    s << "start";
+    m_object->emitSignal(s);
+    std::cout << "signal emitted" << std::endl;
 }
