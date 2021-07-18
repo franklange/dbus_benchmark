@@ -28,7 +28,7 @@ auto get_delay() -> std::chrono::milliseconds
 {
     static std::random_device rd;
     static std::mt19937 gen{rd()};
-    static std::uniform_int_distribution<> distrib{2, 100};
+    static std::uniform_int_distribution<> distrib{0, 11};
 
     return std::chrono::milliseconds{distrib(gen)};
 }
@@ -58,18 +58,19 @@ auto main(int argc, char** argv) -> int
     }
 
     std::vector<std::uint32_t> durations;
+    durations.resize(1000);
 
     Client client{[&](auto&){
         for (auto i = 0; i < 1000; ++i)
         {
             std::this_thread::sleep_for(get_delay());
-            durations.push_back(fetch_duration(client));
+            durations[i] = fetch_duration(client);
         }
 
         file << avg(durations) << std::endl;
     }};
 
-    std::this_thread::sleep_for(10s);
+    std::this_thread::sleep_for(90s);
 
     return 0;
 }
