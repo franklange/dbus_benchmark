@@ -27,5 +27,5 @@ struct Server
     Object m_object;
 
     const Data m_data;
-    const std::uint32_t m_numElements{256};
+    const std::uint32_t m_numElements{128};
 };
